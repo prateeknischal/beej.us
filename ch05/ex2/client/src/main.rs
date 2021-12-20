@@ -2,19 +2,31 @@ use std::env;
 use std::io::prelude::*;
 use std::net::TcpStream;
 use std::net::{SocketAddr, ToSocketAddrs};
+use std::process;
+
+fn usage() {
+    eprintln!("Usage{} host [port:80]", env::args().next().unwrap());
+}
 
 fn main() {
     if env::args().len() < 2 || env::args().len() > 3 {
-        eprintln!("Usage{} host [port:80]", env::args().next().unwrap());
-        return;
+        usage();
+        process::exit(1);
     }
 
-    let args: Vec<String> = env::args().skip(1).collect();
-    let host = &args[0];
-    let mut port = "80";
-    if args.len() == 2 {
-        port = &args[1];
-    }
+    let mut args = env::args().skip(1);
+    let host: String = match args.next() {
+        Some(h) => h,
+        None => {
+            usage();
+            process::exit(1);
+        }
+    };
+
+    let port: String = match args.next() {
+        Some(p) => p,
+        None => "80".to_string(),
+    };
 
     let addr: SocketAddr;
     addr = match format!("{}:{}", host, port).to_socket_addrs() {
