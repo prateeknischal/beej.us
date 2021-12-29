@@ -1,10 +1,10 @@
 default:
-	g++ -std=c++14 -o identify identify.cc
-	g++ -std=c++14 -o hostname hostname.cc
+	g++ -std=c++14 -o identify.out identify.cc
+	g++ -std=c++14 -o hostname.out hostname.cc
 
-	./hostname
-	./identify
+	./hostname.out
+	./identify.out
 
-	rm -rf hostname identify
+	rm -rf *.out
 
 	(cd identity_rs && cargo run)

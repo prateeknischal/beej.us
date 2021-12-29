@@ -116,9 +116,9 @@ void handle_request(int sockfd) {
 
       char buf[1 << 12];
       int recv_size = 0;
-      memset(buf, 0, sizeof(buf));
 
       while (1) {
+        memset(buf, 0, sizeof(buf));
         recv_size = recv(fd, buf, sizeof(buf), 0);
         if (recv_size == 0) {
           break;
@@ -127,12 +127,14 @@ void handle_request(int sockfd) {
         // echo the incoming request
         if (send(fd, buf, sizeof(buf), 0) == -1) {
           fprintf(stderr, "[%s] failed to send msg: %d\n", in, errno);
-          exit(0);
+          exit(1);
         }
       }
+
+      exit(0);
     }
 
-    // close the client connection
+    // close the client connection for the parent
     close(fd);
   }
 }
