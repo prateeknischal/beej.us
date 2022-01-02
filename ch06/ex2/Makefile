@@ -3,3 +3,5 @@ default:
 	./udp.out
 
 	@rm *.out
+
+	(cd udp_server && cargo run)
