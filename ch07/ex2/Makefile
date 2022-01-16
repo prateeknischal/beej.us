@@ -4,3 +4,5 @@ default:
 
 	@(rm *.out)
 
+	(cd chat_rs && cargo run)
+
